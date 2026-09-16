@@ -31,6 +31,12 @@ The default build options focus on hardware compatiblity and parity.
 
 `COPY_NOTE_PARAMS=1` -- adds `PARAMS` copying to the `Copy Note Parameters` window, copy params to all
 
+## 2KXL
+
+`2KXL=1` produces an `MPC2KXL.EXE` patching bootloader for the XL instead.
+
+On the XL, hold `REC` + `OVER DUB` while switching on to boot. Nothing is written to flash.
+
 ## LICENSE
 
 [PolyForm Noncommercial License 1.0.0](LICENSE.txt)

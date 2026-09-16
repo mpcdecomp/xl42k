@@ -1,11 +1,17 @@
 MOUNTPOINT ?= /Volumes/XL42K
 
-OPTS = MUTE_GROUPS TUNE_LIMIT COPY_NOTE_PARAMS
-DEFSYM = $(foreach o,$(OPTS),$($(o):%=-Wa,--defsym,$(o)=%))
+OPTS = MUTE_GROUPS TUNE_LIMIT COPY_NOTE_PARAMS 2KXL
+DEFSYM = $(foreach o,$(OPTS),$($(o):%=-Wa,--defsym,OPT_$(o)=%))
 
-all: MPC2000.EXE MPC2KXL.BIN
+ifeq ($(2KXL),1)
+EXE = MPC2KXL.EXE
+else
+EXE = MPC2000.EXE
+endif
 
-MPC2000.EXE: XL42K.O
+all: $(EXE) MPC2KXL.BIN
+
+$(EXE): XL42K.O
 	dd if=$< of=$@ bs=1 skip=52 count=3584
 
 %.O: %.S
@@ -23,12 +29,12 @@ format:
 	sudo newfs_msdos -F 12 -f 1440 -v XL42K $(DISK)
 	diskutil mount $(DISK)
 
-copy: MPC2000.EXE MPC2KXL.BIN
-	cp $^ "$(MOUNTPOINT)/"
+copy: MPC2KXL.BIN
+	cp $(EXE) MPC2KXL.BIN "$(MOUNTPOINT)/"
 	sync
 
 clean:
-	rm -f MPC2000.EXE MPC2KXL.BIN
+	rm -f MPC2000.EXE MPC2KXL.EXE MPC2KXL.BIN
 
 .PHONY: all format copy clean
 .INTERMEDIATE: XL42K.O MPC2KXL.ZIP
