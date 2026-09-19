@@ -31,6 +31,8 @@ The default build options focus on hardware compatiblity and parity.
 
 `COPY_NOTE_PARAMS=1` -- adds `PARAMS` copying to the `Copy Note Parameters` window, copy params to all
 
+`SKIP_DRUM_SELECT=1` -- `PROGRAM` skips the `Please select a DRUM program to edit.` picker and opens the track's drum.
+
 ## 2KXL
 
 `2KXL=1` produces an `MPC2KXL.EXE` patching bootloader for the XL instead.

@@ -28,6 +28,9 @@ body:
 	.ifndef	OPT_COPY_NOTE_PARAMS
 	.set	OPT_COPY_NOTE_PARAMS, 0		# F2 = PARAMS
 	.endif
+	.ifndef	OPT_SKIP_DRUM_SELECT
+	.set	OPT_SKIP_DRUM_SELECT, 0		# PROGRAM goes to the track's drum
+	.endif
 	.ifndef	OPT_2KXL
 	.set	OPT_2KXL, 0		# target a real XL
 	.endif
@@ -52,6 +55,9 @@ body:
 	.if	OPT_COPY_NOTE_PARAMS
 	.set	NB, NB+1
 	.set	NZ, NZ+3
+	.endif
+	.if	OPT_SKIP_DRUM_SELECT
+	.set	NB, NB+1
 	.endif
 
 entry:	cli
@@ -513,6 +519,12 @@ btab:
 	b 0x0166a,20			# busy banner
 	.ascii	"         Wait......."
 	.ascii	"xl42k | brockrockman"
+
+	.if	OPT_SKIP_DRUM_SELECT		# drum gate: straight to the screen
+	b 0x4dbad,9
+	.byte	0x1e,0x68,0x8e,0x2b,0x90,0x0e,0xe8,0xfe,0x0c
+	.byte	0xff,0x5e,0x06,0x90,0x90,0x90,0x90,0x90,0x90
+	.endif
 
 	.if	OPT_MUTE_GROUPS
 	b 0x381c2,95			# choke same-group notes
